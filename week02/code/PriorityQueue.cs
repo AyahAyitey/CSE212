@@ -24,14 +24,15 @@
 
         // Find the index of the item with the highest priority to remove
         var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count - 1; index++)
+        for (int index = 1; index < _queue.Count; index++) // FIX: was Count - 1, which skipped the last item
         {
-            if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
+            if (_queue[index].Priority > _queue[highPriorityIndex].Priority) // FIX: was >=, which picked the LATER item on ties
                 highPriorityIndex = index;
         }
 
         // Remove and return the item with the highest priority
         var value = _queue[highPriorityIndex].Value;
+        _queue.RemoveAt(highPriorityIndex); // FIX: the item was never removed from the queue
         return value;
     }
 
@@ -60,4 +61,4 @@ internal class PriorityItem
     {
         return $"{Value} (Pri:{Priority})";
     }
-}
+}

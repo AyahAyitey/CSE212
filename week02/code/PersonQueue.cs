@@ -13,7 +13,7 @@ public class PersonQueue
     /// <param name="person">The person to add</param>
     public void Enqueue(Person person)
     {
-        _queue.Insert(0, person);
+        _queue.Add(person); // FIX: add to the BACK of the queue (FIFO), not the front
     }
 
     public Person Dequeue()
@@ -32,4 +32,4 @@ public class PersonQueue
     {
         return $"[{string.Join(", ", _queue)}]";
     }
-}
+}
