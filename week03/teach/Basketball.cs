@@ -1,36 +1,41 @@
-﻿/*
- * CSE 212 Lesson 6C 
- * 
- * This code will analyze the NBA basketball data and create a table showing
- * the players with the top 10 career points.
- * 
- * Note about columns:
- * - Player ID is in column 0
- * - Points is in column 8
- * 
- * Each row represents the player's stats for a single season with a single team.
- */
+// W03 Team Activity - Problem 3: Using a Map to Summarize Data
+// Goal: total points per player across all years, then show the top 10.
+// basketball.csv: column 0 = playerId, column 1 = year, column 8 = points.
 
-using Microsoft.VisualBasic.FileIO;
-
-public class Basketball
+public static class Basketball
 {
     public static void Run()
     {
+        // Key = playerId, Value = total points over all years
         var players = new Dictionary<string, int>();
 
-        using var reader = new TextFieldParser("basketball.csv");
-        reader.TextFieldType = FieldType.Delimited;
-        reader.SetDelimiters(",");
-        reader.ReadFields(); // ignore header row
-        while (!reader.EndOfData) {
-            var fields = reader.ReadFields()!;
+        using var reader = new StreamReader("basketball.csv");
+        reader.ReadLine(); // skip header row
+
+        while (!reader.EndOfStream)
+        {
+            var line = reader.ReadLine();
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            var fields = line.Split(',');
             var playerId = fields[0];
-            var points = int.Parse(fields[8]);
+
+            if (!int.TryParse(fields[8], out var points))
+                continue;      // skip rows with missing/invalid points
+
+            if (players.ContainsKey(playerId))
+                players[playerId] += points;
+            else
+                players[playerId] = points;
         }
 
-        Console.WriteLine($"Players: {{{string.Join(", ", players)}}}");
+        // Convert the map to an array and sort by total points, highest first
+        var topPlayers = players.ToArray();
+        Array.Sort(topPlayers, (p1, p2) => p2.Value.CompareTo(p1.Value));
 
-        var topPlayers = new string[10];
+        Console.WriteLine("Top 10 Players by Total Points");
+        Console.WriteLine("Rank  Player ID     Points");
+        for (var i = 0; i < 10 && i < topPlayers.Length; i++)
+            Console.WriteLine($"{i + 1,-5} {topPlayers[i].Key,-13} {topPlayers[i].Value}");
     }
 }

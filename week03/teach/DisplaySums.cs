@@ -1,33 +1,27 @@
-﻿public static class DisplaySums {
-    public static void Run() {
-        DisplaySumPairs([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-        // Should show something like (order does not matter):
-        // 6 4
-        // 7 3
-        // 8 2
-        // 9 1 
+// W03 Team Activity - Problem 2: Display Sums
+// Goal: print every pair of numbers in a list that sums to 10, no duplicate pairs, O(n).
+// Assumes the input list contains no duplicate numbers.
 
-        Console.WriteLine("------------");
-        DisplaySumPairs([-20, -15, -10, -5, 0, 5, 10, 15, 20]);
-        // Should show something like (order does not matter):
-        // 10 0
-        // 15 -5
-        // 20 -10
+public static class DisplaySums
+{
+    public static void DisplaySumPairs(int[] numbers)
+    {
+        const int target = 10;
+        var seen = new HashSet<int>();
 
-        Console.WriteLine("------------");
-        DisplaySumPairs([5, 11, 2, -4, 6, 8, -1]);
-        // Should show something like (order does not matter):
-        // 8 2
-        // -1 11
-    }
+        foreach (var x in numbers)
+        {
+            var complement = target - x;
 
-    /// <summary>
-    /// Display pairs of numbers (no duplicates should be displayed) that sum to
-    /// 10 using a set in O(n) time.  We are assuming that there are no duplicates
-    /// in the list.
-    /// </summary>
-    /// <param name="numbers">array of integers</param>
-    private static void DisplaySumPairs(int[] numbers) {
-        // TODO Problem 2 - This should print pairs of numbers in the given array
+            // Only check numbers already seen, so each pair is printed once (3+7, not 7+3).
+            if (seen.Contains(complement))
+                Console.WriteLine($"{x} + {complement} = {target}");
+
+            seen.Add(x);
+        }
     }
 }
+
+// Example (put in Program.cs):
+//   DisplaySums.DisplaySumPairs(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+// Output: 6 + 4 = 10, 7 + 3 = 10, 8 + 2 = 10, 9 + 1 = 10

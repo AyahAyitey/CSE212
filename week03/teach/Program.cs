@@ -1,18 +1,10 @@
-﻿Console.WriteLine("\n======================\nUnique Letters\n======================");
-UniqueLetters.Run();
+// Sample driver for the three W03 team activity problems.
+Console.WriteLine("--- Unique Letters ---");
+foreach (var s in new[] { "abcdefg", "abccdefg", "", "aA" })
+    Console.WriteLine($"\"{s}\" -> {UniqueLetters.AreUniqueLetters(s)}");
 
-Console.WriteLine("\n======================\nDisplay Sums\n======================");
-DisplaySums.Run();
+Console.WriteLine("\n--- Display Sums ---");
+DisplaySums.DisplaySumPairs(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 
-Console.WriteLine("\n======================\nBasketball\n======================");
+Console.WriteLine("\n--- Basketball ---");
 Basketball.Run();
-
-// Uncomment and run as you get to the solution part
-// Console.WriteLine("\n======================\nUnique Letters\n======================");
-// UniqueLettersSolution.Run();
-
-// Console.WriteLine("\n======================\nDisplay Sums\n======================");
-// DisplaySumsSolution.Run();
-
-// Console.WriteLine("\n======================\nBasketball\n======================");
-// BasketballSolution.Run();
